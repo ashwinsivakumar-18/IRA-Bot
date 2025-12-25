@@ -1,18 +1,6 @@
-name: ROS 2 CI
-
-on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
-
 jobs:
   ros_ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
@@ -20,36 +8,25 @@ jobs:
         ros_distro: [humble]
 
     steps:
-      # 1️⃣ Checkout repository
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Setup ROS 2
       - name: ⚙️ Setup ROS 2
         uses: ros-tooling/setup-ros@v0.7
         with:
           ros-distro: ${{ matrix.ros_distro }}
 
-      # 3️⃣ Build, Test & Lint (ALL packages inside src/)
       - name: 🏗️ Build, Test, and Lint ROS 2 Packages
         uses: ros-tooling/action-ros-ci@v0.4
         with:
           target-ros2-distro: ${{ matrix.ros_distro }}
+          rosdep-args: --rosdistro humble --as-root apt:false --verbose
 
-
-      # 4️⃣ Optional custom linters (repo-relative paths only)
-      - name: 📝 Custom Code Quality Checks
-        run: |
-          echo "Optional custom linters"
-          # flake8 src/
-          # cppcheck --enable=all --inconclusive --std=c++17 src/
-
-      # 5️⃣ Upload logs (NO hard-coded paths)
-      - name: 📦 Upload Test Results & Logs
+      - name: 📦 Upload Logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.ros_distro }}-ci-logs
+          name: humble-ci-logs
           path: log/
