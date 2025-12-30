@@ -1,0 +1,28 @@
+sudo apt install ros-humble-gazebo-*
+sudo apt install ros-humble-cartographer
+sudo apt install ros-humble-cartographer-ros
+sudo apt install ros-humble-navigation2
+sudo apt install ros-humble-nav2-bringup
+
+
+
+
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/ssauto/ashwin/nav_ws/install/ira_sim/share
+
+
+
+
+
+echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc
+echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc
+echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
+source ~/.bashrc
+
+
+source /opt/ros/<ros2-distro>/setup.bash
+sudo apt install ros-humble-nav2-minimal-tb3*
+sudo apt install ros-humble-robot-localization
+sudo apt install ros-humble-mapviz
+sudo apt install ros-humble-mapviz-plugins
+sudo apt install ros-humble-tile-map
+sudo apt install ros-humble-teleop-twist-keyboard
